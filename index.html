@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asistencia</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background-color: #f4f4f4; }
+  </style>
+</head>
+<body>
+  <h1>Registro de Asistencia</h1>
+  <label for="nombre">Nombre:</label>
+  <input type="text" id="nombre" placeholder="Buscar por nombre">
+  
+  <label for="fechaInicio">Fecha Inicio:</label>
+  <input type="date" id="fechaInicio">
+  
+  <label for="fechaFin">Fecha Fin:</label>
+  <input type="date" id="fechaFin">
+  
+  <button onclick="filtrarDatos()">Buscar</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>DNI</th>
+        <th>Trabajador</th>
+        <th>Fecha</th>
+        <th>Día Semana</th>
+        <th>Entrada</th>
+        <th>Salida</th>
+        <th>Suma de Horas</th>
+      </tr>
+    </thead>
+    <tbody id="tabla-datos">
+      <tr><td colspan="7">No hay datos</td></tr>
+    </tbody>
+  </table>
+
+  <script>
+    async function filtrarDatos() {
+      const nombre = document.getElementById("nombre").value;
+      const fechaInicio = document.getElementById("fechaInicio").value;
+      const fechaFin = document.getElementById("fechaFin").value;
+
+      const url = `https://script.google.com/macros/s/AKfycbz35mePQdbCHgzS_tp0seYkJ6WdLUjamQRpBj5mF57F_lHmagK3NpvDVetslT1CYWmu/exec?nombre=${nombre}&fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`;
+      try {
+        const response = await fetch(url);
+        const datos = await response.json();
+
+        const tabla = document.getElementById("tabla-datos");
+        tabla.innerHTML = "";
+
+        if (datos.length === 0) {
+          tabla.innerHTML = "<tr><td colspan='7'>No hay datos para mostrar</td></tr>";
+          return;
+        }
+
+        datos.forEach(registro => {
+          const fila = document.createElement("tr");
+          fila.innerHTML = `
+            <td>${registro.DNI}</td>
+            <td>${registro.Trabajador}</td>
+            <td>${registro.Fecha}</td>
+            <td>${registro["Día Semana"]}</td>
+            <td>${registro.Entrada}</td>
+            <td>${registro.Salida}</td>
+            <td>${registro["Suma de Horas"]}</td>
+          `;
+          tabla.appendChild(fila);
+        });
+      } catch (error) {
+        console.error("Error al cargar los datos:", error);
+        alert("Hubo un error al cargar los datos.");
+      }
+    }
+  </script>
+</body>
+</html>
