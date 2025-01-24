@@ -47,7 +47,7 @@
       const fechaInicio = document.getElementById("fechaInicio").value;
       const fechaFin = document.getElementById("fechaFin").value;
 
-      const url = `https://script.google.com/macros/s/AKfycbz9fjPUpqaM2OQpWulgUWRc1fDK7OzmkMOSDkew4PwNrewx4BF16HiIMw7hy5wUfHA/exec?nombre=${nombre}&fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`;
+      const url = `https://script.google.com/macros/s/AKfycbz35mePQdbCHgzS_tp0seYkJ6WdLUjamQRpBj5mF57F_lHmagK3NpvDVetslT1CYWmu/exec?nombre=${nombre}&fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`;
       try {
         const response = await fetch(url);
         const datos = await response.json();
